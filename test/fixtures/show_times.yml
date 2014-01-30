@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hour: 2014-01-30 13:05:15
+  cinema_id: 
+
+two:
+  hour: 2014-01-30 13:05:15
+  cinema_id: 
