@@ -1,38 +1,40 @@
 namespace :movies do
 	desc "Populate db with movies showing in cinemas"
-	task :populate => :environment do
+	task :populate => [:environment, 'db:reset'] do
 		require 'rubygems'
 		require 'nokogiri'
 		require 'open-uri'
 
+		base_url = "http://flix.co.ke"
 		url = "http://flix.co.ke/Frontpage/Listings"
 		doc = Nokogiri::HTML(open(url))
-
-		# new_cinema = new_movie.cinemas.build
-		# new_showtime = new_cinema.show_times.build
-		# new_contacts = new_cinema.contacts.build
+		
+		puts "-"*80
 
 		doc.css(".min-width div form").each do |entry|
 			title = entry.at_css("span").text
 			description = entry.at_css('br').next.text
+			avator = base_url + entry.at_css("input")['src']
 
 			puts "Found: #{title}"
-			puts "----> Saving #{title} ...."
+			puts "> Saving #{title} ...."
 
-			movie = Movie.create!(title: title.strip, description: description.strip)
-			puts "----> Successfully saved #{movie.title}"
+			movie = Movie.create!(title: title.strip, description: description.strip, avator: avator)
+			puts "> Successfully saved #{movie.title}"
 			puts "\n"
 
 			puts "Saving cinemas for #{movie.title}"
 			create_cinemas_for(movie, entry)
+
+			puts "-"*70
 		end
 	end	
 
 	def create_cinemas_for(movie, entry)
 			entry.search("br+ strong").each do |el|
-				puts "    ---> Found: #{el.text}"
+				puts "> Found: #{el.text}"
 				cinema = movie.cinemas.create!(name: el.text.strip)
-				puts "	        > Saved #{cinema.name}. I will now save contact details for #{cinema.name} "
+				puts "> Saved #{cinema.name}. I will now save contact details for #{cinema.name} "
 
 				save_contact_details_for(cinema, el)
 			end
@@ -47,8 +49,8 @@ namespace :movies do
 	    phones.each do |number|
 	    	cinema.contacts.create!(number: number.strip)
 	    end
-	    puts "	                    > Success! I saved #{phones.size} contacts for #{cinema.name}"
-	    puts "                      > I will now save the show times"
+	    puts "> Success! I saved #{phones.size} contacts for #{cinema.name}"
+	    puts "> I will now save the show times"
 
 	    save_show_times_for(cinema, el)
 	end
@@ -58,7 +60,7 @@ namespace :movies do
 		times.split(',').each do |time|
 			cinema.show_times.create!(hour: time)
 		end  
-		puts "                           > Successfully saved show times for #{cinema.name}"
+		puts "> Successfully saved show times for #{cinema.name} \n"
 	end
 
 end

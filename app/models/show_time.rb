@@ -4,7 +4,7 @@ class ShowTime < ActiveRecord::Base
   	def as_json(options = {})
 		{
 			:id	=> self.id,
-			:time => self.hour.strftime("%I:%M %P")
+			:time => self.hour.strftime("%I:%M%P")
 		}
 	end
 end
