@@ -11,6 +11,9 @@ gem 'sqlite3'
 # html parse
 gem "nokogiri", "~> 1.6.1"
 
+# cron jobs
+gem 'whenever', :require => false
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
