@@ -1,6 +1,6 @@
 namespace :movies do
 	desc "Populate db with movies showing in cinemas"
-	task :populate => [:environment, 'db:reset'] do
+	task :populate => [:environment, 'db:reset', 'server:restart'] do
 		require 'rubygems'
 		require 'nokogiri'
 		require 'open-uri'
