@@ -14,6 +14,10 @@ gem "nokogiri", "~> 1.6.1"
 # cron jobs
 gem 'whenever', :require => false
 
+gem "rest-client"
+gem 'redis'
+gem 'redis-namespace'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -7,8 +7,7 @@ class Cinema < ActiveRecord::Base
   	{
   		:id => self.id,
   		:name => self.name,
-  		:show_times => self.show_times,
-  		:contacts => self.contacts
+  		:show_times => self.show_times
   	}
   end
 end

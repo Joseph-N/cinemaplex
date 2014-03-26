@@ -4,22 +4,61 @@ namespace :movies do
 		require 'rubygems'
 		require 'nokogiri'
 		require 'open-uri'
+		require 'tmdb'
 
 		base_url = "http://flix.co.ke"
 		url = "http://flix.co.ke/Frontpage/Listings"
+		imdb_key_length = 8
+
 		doc = Nokogiri::HTML(open(url))
+
+		#init tmdbmovie
+		tmdb =  Tmdb.new("29588c40b1a3ef6254fd1b6c86fbb9a9")
+		tmdbmovie = TmdbMovie.new("29588c40b1a3ef6254fd1b6c86fbb9a9")
+
 		
 		puts "-"*80
 
 		doc.css(".min-width div form").each do |entry|
-			title = entry.at_css("span").text
-			description = entry.at_css('br').next.text
-			avator = base_url + entry.at_css("input")['src']
+			flix_title = entry.at_css("span").text
+			flix_description = entry.at_css('br').next.text
 
-			puts "Found: #{title}"
-			puts "> Saving #{title} ...."
+			flix_avator = base_url + entry.at_css("input")['src']
+			imdb_key = flix_avator.gsub(/[\D100]/,'').insert(0,'tt')
 
-			movie = Movie.create!(title: title.strip, description: description.strip, avator: avator)
+			if imdb_key.size < 8
+				zeros_to_add = 8 - imdb_key.size
+				imdb_key = imdb_key.insert(2, 0.to_s * zeros_to_add)
+			end
+
+			puts "Found: #{flix_title}"
+			puts "Looking up  #{flix_title} with imdb_key #{imdb_key} on TheMovieDatabase "
+
+			movie_details =  tmdbmovie.search_by_imdb_id(imdb_key)
+
+			if movie_details["movie_results"].any?
+				puts "Found Movie with #{imdb_key}!!!"
+				# title = movie_details["movie_results"][0]["title"]
+
+				puts "Getting full movie information......"
+				movie_info = tmdbmovie.find(movie_details["movie_results"][0]["id"])
+			else
+				puts "Ooops!! I did not get results with imdb_key #{imdb_key}"
+				puts "I will try searching with name instead.."
+				search_term = flix_title.gsub(/2D|3D/,'')
+				search_results = tmdbmovie.search(search_term)
+				if search_results["results"].any?
+					puts "Yaay!! Found Movie"
+					puts "Getting full movie information......"
+					movie_info = tmdbmovie.find(search_results["results"][0]["id"])
+				end
+
+			end
+
+			description = movie_info["overview"]
+			avator = tmdb.image_url("poster", "w185", movie_info["poster_path"])
+
+			movie = Movie.create!(title: flix_title, description: description, avator: avator)
 			puts "> Successfully saved #{movie.title}"
 			puts "\n"
 

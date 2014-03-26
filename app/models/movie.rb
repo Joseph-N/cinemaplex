@@ -7,7 +7,6 @@ class Movie < ActiveRecord::Base
 			:title => self.title,
 			:description => self.description,
 			:avator_url => self.avator,
-			:cinemas => self.cinemas
 		}
 	end
 end
