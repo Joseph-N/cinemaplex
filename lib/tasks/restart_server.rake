@@ -4,10 +4,8 @@ namespace :server do
 		app_location = "/home/jose/cinemaplex"
 		if system("cd $app_location")
 			p "Restarting rails application....."
-			system("kill `cat tmp/pids/thin.pid` && thin start")
+			system("kill `cat tmp/pids/thin.pid` && thin start -e production -d -p 4000")
 			p "Successfully restarted rails server"
 		end
 	end
 end
-
-#-e production -d -p 4000
