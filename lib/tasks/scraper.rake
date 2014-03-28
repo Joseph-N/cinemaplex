@@ -56,9 +56,10 @@ namespace :movies do
 			end
 
 			description = movie_info["overview"]
-			avator = tmdb.image_url("poster", "w185", movie_info["poster_path"])
+			poster =  movie_info["poster_path"]
+      backdrop = movie_info["backdrop_path"]
 
-			movie = Movie.create!(title: flix_title, description: description, avator: avator)
+			movie = Movie.create!(title: flix_title, description: description, poster: poster, backdrop: backdrop)
 			puts "> Successfully saved #{movie.title}"
 			puts "\n"
 

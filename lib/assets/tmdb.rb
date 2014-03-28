@@ -22,7 +22,7 @@ class Tmdb
 			begin
 				base_url + size + file_path
 			rescue
-				''
+				"unsupported image type!"
 			end
 		end
 	end

@@ -7,4 +7,6 @@ MovieScraper::Application.routes.draw do
       resources :show_times
     end
   end
+
+  get '/images_config' => "movies#configuration"
 end
