@@ -45,7 +45,7 @@ namespace :movies do
 			else
 				puts "Ooops!! I did not get results with imdb_key #{imdb_key}"
 				puts "I will try searching with name instead.."
-				search_term = flix_title.gsub(/2D|3D/,'')
+				search_term = flix_title.gsub(/\(.*?\)|2D|3D/,'')
 				search_results = tmdbmovie.search(search_term)
 				if search_results["results"].any?
 					puts "Yaay!! Found Movie"
