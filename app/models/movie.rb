@@ -5,8 +5,8 @@ class Movie < ActiveRecord::Base
 		{
 			:id	=> self.id,
 			:title => self.title,
-      :poster => self.poster,
-      :backdrop => self.backdrop,
+      		:poster => self.poster,
+      		:backdrop => self.backdrop,
 			:description => self.description
 		}
   end
