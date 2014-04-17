@@ -57,9 +57,13 @@ namespace :movies do
 
 			description = movie_info["overview"]
 			poster =  movie_info["poster_path"]
-      backdrop = movie_info["backdrop_path"]
+      		backdrop = movie_info["backdrop_path"]
+      		youtube = movie_info["trailers"]["youtube"][0]["source"] unless movie_info["trailers"]["youtube"][0].nil?
 
-			movie = Movie.create!(title: flix_title, description: description, poster: poster, backdrop: backdrop)
+			movie = Movie.create!(title: flix_title, description: description,
+								  poster: poster,
+								  backdrop: backdrop,
+								  youtube: youtube)
 			puts "> Successfully saved #{movie.title}"
 			puts "\n"
 
