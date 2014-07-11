@@ -7,8 +7,9 @@ class Movie < ActiveRecord::Base
 			:title => self.title,
       		:poster => self.poster,
       		:backdrop => self.backdrop,
-			:description => self.description,
-			:youtube => self.youtube
+      		:youtube => self.youtube,
+			:description => self.description
+			
 		}
   end
 end

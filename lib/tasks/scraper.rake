@@ -55,22 +55,24 @@ namespace :movies do
 
 			end
 
-			description = movie_info["overview"]
-			poster =  movie_info["poster_path"]
-      		backdrop = movie_info["backdrop_path"]
-      		youtube = movie_info["trailers"]["youtube"][0]["source"] unless movie_info["trailers"]["youtube"][0].nil?
+			if movie_info
+				description = movie_info["overview"]
+				poster =  movie_info["poster_path"]
+	      		backdrop = movie_info["backdrop_path"]
+	      		youtube = movie_info["trailers"]["youtube"][0]["source"] unless movie_info["trailers"]["youtube"][0].nil?
 
-			movie = Movie.create!(title: flix_title, description: description,
-								  poster: poster,
-								  backdrop: backdrop,
-								  youtube: youtube)
-			puts "> Successfully saved #{movie.title}"
-			puts "\n"
+				movie = Movie.create!(title: flix_title, description: description,
+									  poster: poster,
+									  backdrop: backdrop,
+									  youtube: youtube)
+				puts "> Successfully saved #{movie.title}"
+				puts "\n"
 
-			puts "Saving cinemas for #{movie.title}"
-			create_cinemas_for(movie, entry)
+				puts "Saving cinemas for #{movie.title}"
+				create_cinemas_for(movie, entry)
 
-			puts "-"*70
+				puts "-"*70
+			end
 		end
 	end	
 
